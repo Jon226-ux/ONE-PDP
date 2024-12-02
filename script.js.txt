@@ -1,0 +1,56 @@
+// Data för frågor
+const questions = [
+  ["Mening 1A", "Mening 2A", "Mening 3A", "Mening 4A", "Mening 5A", "Mening 6A", "Mening 7A"],
+  ["Mening 1B", "Mening 2B", "Mening 3B", "Mening 4B", "Mening 5B", "Mening 6B", "Mening 7B"],
+  ["Mening 1C", "Mening 2C", "Mening 3C", "Mening 4C", "Mening 5C", "Mening 6C", "Mening 7C"],
+  ["Mening 1D", "Mening 2D", "Mening 3D", "Mening 4D", "Mening 5D", "Mening 6D", "Mening 7D"],
+  ["Mening 1E", "Mening 2E", "Mening 3E", "Mening 4E", "Mening 5E", "Mening 6E", "Mening 7E"]
+];
+const correctOrder = [...questions];
+const scores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+// Ladda in frågor
+const questionsContainer = document.getElementById("questions");
+questions.forEach((question, index) => {
+  const container = document.createElement("div");
+  container.classList.add("question-container");
+  container.innerHTML = `<h2>Fråga ${index + 1}</h2>`;
+  const list = document.createElement("ul");
+  list.classList.add("sortable");
+  question.sort(() => Math.random() - 0.5).forEach((sentence) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = sentence;
+    listItem.draggable = true;
+    list.appendChild(listItem);
+  });
+  container.appendChild(list);
+  questionsContainer.appendChild(container);
+});
+
+// Drag-and-drop
+let draggedItem = null;
+document.addEventListener("dragstart", (e) => {
+  if (e.target.tagName === "LI") draggedItem = e.target;
+});
+document.addEventListener("dragover", (e) => e.preventDefault());
+document.addEventListener("drop", (e) => {
+  if (e.target.tagName === "LI") {
+    const parent = e.target.parentNode;
+    parent.insertBefore(draggedItem, e.target.nextSibling);
+  }
+});
+
+// Hantera svar
+document.getElementById("submit").addEventListener("click", () => {
+  const group = document.getElementById("group").value;
+  let score = 0;
+  const lists = document.querySelectorAll(".sortable");
+  lists.forEach((list, index) => {
+    const userOrder = Array.from(list.children).map((li) => li.textContent);
+    if (JSON.stringify(userOrder) === JSON.stringify(correctOrder[index])) score++;
+  });
+  scores[group]++;
+  document.getElementById("scoreboard").innerHTML = Object.entries(scores)
+    .map(([group, score]) => `<p>Grupp ${group}: ${score} poäng</p>`)
+    .join("");
+});

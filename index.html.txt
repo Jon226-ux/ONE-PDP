@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interaktiv Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .question-container { margin-bottom: 30px; }
+    .sortable { list-style: none; padding: 0; }
+    .sortable li { padding: 10px; margin: 5px 0; background: #f4f4f4; border: 1px solid #ccc; cursor: move; }
+    .group-select { margin-bottom: 10px; }
+    .result { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Quiz: Ordna meningar i rätt ordning</h1>
+  <label for="group">Välj grupp:</label>
+  <select id="group" class="group-select">
+    <option value="1">Grupp 1</option>
+    <option value="2">Grupp 2</option>
+    <option value="3">Grupp 3</option>
+    <option value="4">Grupp 4</option>
+    <option value="5">Grupp 5</option>
+  </select>
+  
+  <div id="questions"></div>
+  <button id="submit">Skicka in svar</button>
+
+  <div id="results" class="result">
+    <h2>Resultat:</h2>
+    <div id="scoreboard"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
